@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">FireZone</string>
+    <string name="auth_banner_desc">FireZone battle royale drop plane over Bermuda island</string>
+    <string name="sign_in_google">Sign in with Google</string>
+    <string name="cd_back">Navigate back</string>
+    <string name="cd_sign_out">Sign out of account</string>
+    <string name="cd_lobby_backdrop">Tactical battle royale lobby hangar backdrop</string>
+</resources>

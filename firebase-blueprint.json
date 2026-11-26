@@ -1,0 +1,102 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Player account profile, currencies, combat stats, and currently equipped classic outfit.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Authenticated Firebase UID" },
+        "callsign": { "type": "string", "description": "Player display callsign" },
+        "goldCoins": { "type": "integer", "description": "Gold coin balance" },
+        "diamonds": { "type": "integer", "description": "Diamond balance" },
+        "level": { "type": "integer", "description": "Player account level" },
+        "xp": { "type": "integer", "description": "Total experience points" },
+        "kills": { "type": "integer", "description": "Lifetime bot/match eliminations" },
+        "booyahs": { "type": "integer", "description": "Total #1 victories" },
+        "matchesPlayed": { "type": "integer", "description": "Total matches completed" },
+        "luckPoints": { "type": "integer", "description": "Luck Royale pity progress 0-100" },
+        "equippedHatId": { "type": "string" },
+        "equippedMaskId": { "type": "string" },
+        "equippedTopId": { "type": "string" },
+        "equippedBottomId": { "type": "string" },
+        "equippedShoesId": { "type": "string" },
+        "equippedWeaponSkinId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Server timestamp" }
+      },
+      "required": [
+        "userId", "callsign", "goldCoins", "diamonds", "level", "xp",
+        "kills", "booyahs", "matchesPlayed", "luckPoints",
+        "equippedHatId", "equippedMaskId", "equippedTopId",
+        "equippedBottomId", "equippedShoesId", "equippedWeaponSkinId",
+        "createdAt", "updatedAt"
+      ]
+    },
+    "OwnedItem": {
+      "title": "OwnedItem",
+      "description": "Unlocked classic outfit piece or weapon skin in the player vault.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "itemId": { "type": "string" },
+        "category": { "type": "string", "enum": ["HAT", "MASK", "TOP", "BOTTOM", "SHOES", "WEAPON_SKIN"] },
+        "name": { "type": "string" },
+        "rarity": { "type": "string", "enum": ["COMMON", "RARE", "EPIC", "LEGENDARY"] },
+        "acquiredVia": { "type": "string", "enum": ["STARTER", "STORE", "GOLD_ROYALE", "DIAMOND_ROYALE", "WEAPON_ROYALE"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "itemId", "category", "name", "rarity", "acquiredVia", "createdAt", "updatedAt"]
+    },
+    "MatchRecord": {
+      "title": "MatchRecord",
+      "description": "Summary record of a completed open-world bot battle royale match.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "mode": { "type": "string", "enum": ["BERMUDA_SOLO", "PURGATORY_SOLO"] },
+        "placement": { "type": "integer" },
+        "kills": { "type": "integer" },
+        "damageDealt": { "type": "integer" },
+        "survivalSeconds": { "type": "integer" },
+        "goldEarned": { "type": "integer" },
+        "xpEarned": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "mode", "placement", "kills", "damageDealt", "survivalSeconds", "goldEarned", "xpEarned", "createdAt", "updatedAt"]
+    },
+    "CurrencyTransaction": {
+      "title": "CurrencyTransaction",
+      "description": "Ledger entry for diamond/gold pack grants, custom hold-grants, store buys, spins, and match rewards.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "txType": { "type": "string", "enum": ["TOPUP_PACK", "CUSTOM_GRANT", "STORE_PURCHASE", "LUCK_SPIN", "MATCH_REWARD"] },
+        "currency": { "type": "string", "enum": ["DIAMONDS", "GOLD"] },
+        "amountDelta": { "type": "integer" },
+        "note": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "txType", "currency", "amountDelta", "note", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Player account profile and currencies"
+    },
+    "/users/{userId}/ownedItems/{itemId}": {
+      "schema": { "$ref": "#/entities/OwnedItem" },
+      "description": "Player wardrobe & weapon skin vault"
+    },
+    "/users/{userId}/matchHistory/{matchId}": {
+      "schema": { "$ref": "#/entities/MatchRecord" },
+      "description": "Player open-world battle royale match history"
+    },
+    "/users/{userId}/transactions/{txId}": {
+      "schema": { "$ref": "#/entities/CurrencyTransaction" },
+      "description": "Player currency transaction log"
+    }
+  }
+}

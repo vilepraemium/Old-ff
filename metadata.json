@@ -1,0 +1,6 @@
+{
+  "name": "FireZone",
+  "description": "Classic 2017-style open world battle royale shooter with bot matches, vintage lobby UI, Luck Royale spins, outfits vault, and diamond & gold store.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
